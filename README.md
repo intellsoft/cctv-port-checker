@@ -2,12 +2,6 @@
 
 # 🔍 ابزار بررسی پورت دوربین مداربسته - آنلاین و تحت وب
 
-![نسخه](https://img.shields.io/badge/نسخه-1.0.0-blue)
-![پروژه تحت وب](https://img.shields.io/badge/نوع-پروژه_تحت_وب-green)
-![مبتنی بر مرورگر](https://img.shields.io/badge/مبتنی_بر-مرورگر-orange)
-![ریسپانسیو](https://img.shields.io/badge/طراحی-ریسپانسیو-purple)
-![مجوز](https://img.shields.io/badge/مجوز-MIT-lightgrey)
-
 ## 📋 فهرست مطالب
 - [معرفی](#معرفی)
 - [ویژگی‌ها](#ویژگی‌ها)
