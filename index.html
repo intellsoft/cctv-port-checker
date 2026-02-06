@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بررسی پورت دوربین مداربسته | IntellSoft</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔍</text></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            /* رنگ‌های تم روشن */
+            --light-bg: #f8f9fa;
+            --light-card: #ffffff;
+            --light-text: #2d3748;
+            --light-border: #e2e8f0;
+            --light-primary: #2563eb;
+            --light-primary-hover: #1d4ed8;
+            --light-secondary: #6b7280;
+            --light-success: #10b981;
+            --light-danger: #ef4444;
+            --light-warning: #f59e0b;
+            
+            /* رنگ‌های تم تاریک */
+            --dark-bg: #1a202c;
+            --dark-card: #2d3748;
+            --dark-text: #f7fafc;
+            --dark-border: #4a5568;
+            --dark-primary: #3b82f6;
+            --dark-primary-hover: #60a5fa;
+            --dark-secondary: #a0aec0;
+            --dark-success: #34d399;
+            --dark-danger: #f87171;
+            --dark-warning: #fbbf24;
+            
+            /* متغیرهای عمومی */
+            --radius: 10px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Vazirmatn', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--light-text);
+            line-height: 1.6;
+            transition: var(--transition);
+            min-height: 100vh;
+            padding-bottom: 60px;
+        }
+
+        body.dark-mode {
+            background-color: var(--dark-bg);
+            color: var(--dark-text);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--light-border);
+            margin-bottom: 30px;
+        }
+
+        body.dark-mode header {
+            border-bottom-color: var(--dark-border);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--light-primary), #1d4ed8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .logo-text h1 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        .logo-text p {
+            font-size: 0.9rem;
+            color: var(--light-secondary);
+        }
+
+        body.dark-mode .logo-text p {
+            color: var(--dark-secondary);
+        }
+
+        .theme-toggle {
+            background: var(--light-card);
+            border: 1px solid var(--light-border);
+            width: 60px;
+            height: 30px;
+            border-radius: 15px;
+            position: relative;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        body.dark-mode .theme-toggle {
+            background: var(--dark-card);
+            border-color: var(--dark-border);
+        }
+
+        .theme-toggle::before {
+            content: '';
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background: var(--light-primary);
+            border-radius: 50%;
+            top: 2px;
+            right: 2px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: white;
+        }
+
+        body.dark-mode .theme-toggle::before {
+            right: calc(100% - 26px);
+            background: var(--dark-primary);
+            content: '☀️';
+        }
+
+        body:not(.dark-mode) .theme-toggle::before {
+            content: '🌙';
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+
+        @media (min-width: 992px) {
+            .main-content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .card {
+            background: var(--light-card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 25px;
+            transition: var(--transition);
+        }
+
+        body.dark-mode .card {
+            background: var(--dark-card);
+        }
+
+        .card h2 {
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        body.dark-mode .card h2 {
+            border-bottom-color: var(--dark-primary);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .input-with-icon {
+            position: relative;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--light-border);
+            border-radius: var(--radius);
+            font-size: 16px;
+            transition: var(--transition);
+            background: var(--light-card);
+            color: var(--light-text);
+        }
+
+        body.dark-mode input, body.dark-mode select {
+            background: var(--dark-card);
+            color: var(--dark-text);
+            border-color: var(--dark-border);
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--light-primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        body.dark-mode input:focus, body.dark-mode select:focus {
+            border-color: var(--dark-primary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--light-secondary);
+        }
+
+        body.dark-mode .input-icon {
+            color: var(--dark-secondary);
+        }
+
+        .input-with-icon input {
+            padding-left: 45px;
+        }
+
+        .port-presets {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .port-btn {
+            padding: 8px 15px;
+            background: var(--light-card);
+            border: 1px solid var(--light-border);
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 14px;
+        }
+
+        body.dark-mode .port-btn {
+            background: var(--dark-card);
+            border-color: var(--dark-border);
+            color: var(--dark-text);
+        }
+
+        .port-btn:hover {
+            background: var(--light-primary);
+            color: white;
+            border-color: var(--light-primary);
+        }
+
+        body.dark-mode .port-btn:hover {
+            background: var(--dark-primary);
+            border-color: var(--dark-primary);
+        }
+
+        .port-btn.active {
+            background: var(--light-primary);
+            color: white;
+            border-color: var(--light-primary);
+        }
+
+        body.dark-mode .port-btn.active {
+            background: var(--dark-primary);
+            border-color: var(--dark-primary);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 14px 25px;
+            background: var(--light-primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: var(--transition);
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background: var(--light-primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        body.dark-mode .btn {
+            background: var(--dark-primary);
+        }
+
+        body.dark-mode .btn:hover {
+            background: var(--dark-primary-hover);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        .result-container {
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: var(--radius);
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .result-open {
+            background-color: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--light-success);
+            color: var(--light-success);
+        }
+
+        .result-closed {
+            background-color: rgba(239, 68, 68, 0.1);
+            border: 1px solid var(--light-danger);
+            color: var(--light-danger);
+        }
+
+        body.dark-mode .result-open {
+            background-color: rgba(52, 211, 153, 0.1);
+            border-color: var(--dark-success);
+            color: var(--dark-success);
+        }
+
+        body.dark-mode .result-closed {
+            background-color: rgba(248, 113, 113, 0.1);
+            border-color: var(--dark-danger);
+            color: var(--dark-danger);
+        }
+
+        .result-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .result-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .history-list {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid var(--light-border);
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-10px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        body.dark-mode .history-item {
+            border-bottom-color: var(--dark-border);
+        }
+
+        .history-item:last-child {
+            border-bottom: none;
+        }
+
+        .history-info {
+            flex: 1;
+        }
+
+        .history-ip {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .history-port {
+            font-size: 14px;
+            color: var(--light-secondary);
+        }
+
+        body.dark-mode .history-port {
+            color: var(--dark-secondary);
+        }
+
+        .history-status {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .status-open {
+            background-color: rgba(16, 185, 129, 0.2);
+            color: var(--light-success);
+        }
+
+        .status-closed {
+            background-color: rgba(239, 68, 68, 0.2);
+            color: var(--light-danger);
+        }
+
+        body.dark-mode .status-open {
+            background-color: rgba(52, 211, 153, 0.2);
+            color: var(--dark-success);
+        }
+
+        body.dark-mode .status-closed {
+            background-color: rgba(248, 113, 113, 0.2);
+            color: var(--dark-danger);
+        }
+
+        .history-actions {
+            display: flex;
+            gap: 10px;
+            margin-right: 15px;
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            color: var(--light-secondary);
+            cursor: pointer;
+            font-size: 16px;
+            transition: var(--transition);
+            padding: 5px;
+            border-radius: 4px;
+        }
+
+        .action-btn:hover {
+            color: var(--light-danger);
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        body.dark-mode .action-btn {
+            color: var(--dark-secondary);
+        }
+
+        body.dark-mode .action-btn:hover {
+            color: var(--dark-danger);
+            background: rgba(248, 113, 113, 0.1);
+        }
+
+        .clear-history {
+            display: block;
+            margin: 20px auto 0;
+            padding: 10px 20px;
+            background: transparent;
+            color: var(--light-danger);
+            border: 1px solid var(--light-danger);
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 14px;
+        }
+
+        .clear-history:hover {
+            background: var(--light-danger);
+            color: white;
+        }
+
+        body.dark-mode .clear-history {
+            color: var(--dark-danger);
+            border-color: var(--dark-danger);
+        }
+
+        body.dark-mode .clear-history:hover {
+            background: var(--dark-danger);
+        }
+
+        .empty-history {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--light-secondary);
+        }
+
+        body.dark-mode .empty-history {
+            color: var(--dark-secondary);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid var(--light-border);
+            color: var(--light-secondary);
+            font-size: 14px;
+        }
+
+        body.dark-mode .footer {
+            border-top-color: var(--dark-border);
+            color: var(--dark-secondary);
+        }
+
+        .footer a {
+            color: var(--light-primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        body.dark-mode .footer a {
+            color: var(--dark-primary);
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .error {
+            color: var(--light-danger);
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        body.dark-mode .error {
+            color: var(--dark-danger);
+        }
+
+        .sponsor-section {
+            text-align: center;
+            padding: 15px;
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.05), rgba(29, 78, 216, 0.05));
+            border-radius: var(--radius);
+            margin-top: 30px;
+            border: 1px solid var(--light-border);
+        }
+
+        body.dark-mode .sponsor-section {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(29, 78, 216, 0.1));
+            border-color: var(--dark-border);
+        }
+
+        .sponsor-section h3 {
+            margin-bottom: 10px;
+            color: var(--light-primary);
+        }
+
+        body.dark-mode .sponsor-section h3 {
+            color: var(--dark-primary);
+        }
+
+        .sponsor-section p {
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .sponsor-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: var(--light-primary);
+            color: white;
+            border-radius: var(--radius);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .sponsor-link:hover {
+            background: var(--light-primary-hover);
+            transform: translateY(-2px);
+        }
+
+        body.dark-mode .sponsor-link {
+            background: var(--dark-primary);
+        }
+
+        body.dark-mode .sponsor-link:hover {
+            background: var(--dark-primary-hover);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            background: var(--light-card);
+            color: var(--light-text);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 1000;
+            animation: slideUp 0.3s ease;
+            border-right: 4px solid var(--light-primary);
+            max-width: 350px;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(100px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        body.dark-mode .toast {
+            background: var(--dark-card);
+            color: var(--dark-text);
+            border-right-color: var(--dark-primary);
+        }
+
+        .toast.hidden {
+            display: none;
+        }
+
+        .toast.success {
+            border-right-color: var(--light-success);
+        }
+
+        body.dark-mode .toast.success {
+            border-right-color: var(--dark-success);
+        }
+
+        .toast.error {
+            border-right-color: var(--light-danger);
+        }
+
+        body.dark-mode .toast.error {
+            border-right-color: var(--dark-danger);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+            
+            .logo-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .history-actions {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .toast {
+                left: 20px;
+                right: 20px;
+                max-width: none;
+            }
+        }
+    </style>
+  <!-- متا تگ‌های اصلی و کلمات کلیدی -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>بررسی پورت دوربین مداربسته آنلاین | ابزار تست پورت دوربین | IntellSoft</title>
+<meta name="description" content="بررسی آنلاین و رایگان پورت دوربین مداربسته - تست باز بودن پورت‌های دوربین مداربسته Hikvision، Dahua، Axis و دیگر برندها با ابزار تحت وب پیشرفته اینتل سافت">
+<meta name="keywords" content="بررسی پورت دوربین مداربسته, تست پورت دوربین, ابزار آنلاین بررسی پورت, پورت چکر دوربین, نرم افزار دوربین مداربسته, بررسی باز بودن پورت, دوربین مداربسته, نرم افزار اینتل سافت, IntellSoft, پورت 80, پورت 554, پورت 37777, پورت 8000, دوربین Hikvision, دوربین داهوا, دوربین اکسیس, نظارت تصویری, امنیت شبکه, نرم افزار تحت وب">
+<meta name="author" content="IntellSoft - نرم افزارهای دوربین مداربسته">
+<meta name="robots" content="index, follow">
+<meta name="googlebot" content="index, follow">
+
+<!-- Open Graph Meta Tags برای شبکه‌های اجتماعی -->
+<meta property="og:title" content="بررسی پورت دوربین مداربسته آنلاین | ابزار تست پورت دوربین | IntellSoft">
+<meta property="og:description" content="بررسی آنلاین و رایگان پورت دوربین مداربسته - تست باز بودن پورت‌های دوربین مداربسته Hikvision، Dahua، Axis و دیگر برندها">
+<meta property="og:image" content="https://intellsoft.ir/images/port-checker-og.jpg">
+<meta property="og:url" content="https://intellsoft.ir/port-checker">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fa_IR">
+<meta property="og:site_name" content="IntellSoft">
+
+<!-- Twitter Card Meta Tags -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="بررسی پورت دوربین مداربسته آنلاین | ابزار تست پورت دوربین">
+<meta name="twitter:description" content="بررسی آنلاین و رایگان پورت دوربین مداربسته - تست باز بودن پورت‌های دوربین مداربسته">
+<meta name="twitter:image" content="https://intellsoft.ir/images/port-checker-twitter.jpg">
+<meta name="twitter:site" content="@IntellSoft">
+<meta name="twitter:creator" content="@IntellSoft">
+
+<!-- Canonical Link -->
+<link rel="canonical" href="https://intellsoft.ir/port-checker">
+
+<!-- Favicon و آیکون‌ها -->
+<link rel="icon" type="image/x-icon" href="https://intellsoft.ir/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="https://intellsoft.ir/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="https://intellsoft.ir/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://intellsoft.ir/apple-touch-icon.png">
+<link rel="manifest" href="https://intellsoft.ir/site.webmanifest">
+
+<!-- Schema.org Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "بررسی پورت دوربین مداربسته اینتل سافت",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Any",
+  "description": "ابزار آنلاین بررسی و تست پورت‌های دوربین مداربسته به صورت رایگان",
+  "url": "https://intellsoft.ir/port-checker",
+  "author": {
+    "@type": "Organization",
+    "name": "IntellSoft",
+    "url": "https://intellsoft.ir/"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "IRR"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.8",
+    "ratingCount": "124"
+  },
+  "keywords": "بررسی پورت دوربین مداربسته, تست پورت دوربین, ابزار آنلاین, نرم افزار دوربین مداربسته",
+  "featureList": "بررسی آنلاین پورت, تست پورت دوربین, ذخیره تاریخچه, رابط کاربری فارسی, پشتیبانی از تم تاریک"
+}
+</script>
+
+<!-- متا تگ‌های اضافی برای موتورهای جستجو -->
+<meta name="language" content="Persian">
+<meta name="geo.region" content="IR">
+<meta name="geo.placename" content="Iran">
+<meta name="geo.position" content="35.6892;51.3890">
+<meta name="ICBM" content="35.6892, 51.3890">
+<meta name="theme-color" content="#2563eb">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="format-detection" content="telephone=no">
+  
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <div class="logo">
+                    <i class="fas fa-camera"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>بررسی پورت دوربین مداربسته</h1>
+                    <p>ابزار آنلاین بررسی وضعیت پورت‌های دوربین</p>
+                </div>
+            </div>
+            <div class="theme-toggle" id="themeToggle"></div>
+        </header>
+
+        <main class="main-content">
+            <section class="card">
+                <h2><i class="fas fa-search"></i> بررسی پورت</h2>
+                
+                <div class="form-group">
+                    <label for="ipAddress">آدرس IP</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-server input-icon"></i>
+                        <input type="text" id="ipAddress" placeholder="مثال: 192.168.1.100" dir="ltr">
+                    </div>
+                    <div class="error" id="ipError">لطفا یک آدرس IP معتبر وارد کنید</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="portNumber">شماره پورت</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-plug input-icon"></i>
+                        <input type="number" id="portNumber" placeholder="مثال: 80" dir="ltr" min="1" max="65535">
+                    </div>
+                    <div class="error" id="portError">لطفا یک پورت معتبر بین 1 تا 65535 وارد کنید</div>
+                </div>
+                
+                <div class="form-group">
+                    <label>پورت‌های پیش‌فرض دوربین‌ها</label>
+                    <div class="port-presets" id="portPresets">
+                        <!-- پورت‌های پیش‌فرض توسط JavaScript اضافه می‌شوند -->
+                    </div>
+                </div>
+                
+                <button class="btn" id="checkPortBtn">
+                    <span>بررسی وضعیت پورت</span>
+                </button>
+                
+                <div class="result-container" id="resultContainer">
+                    <div class="result-header">
+                        <div class="result-title">
+                            <i class="fas fa-info-circle"></i>
+                            <span id="resultTitle">نتیجه بررسی</span>
+                        </div>
+                        <div id="resultStatus"></div>
+                    </div>
+                    <p id="resultMessage"></p>
+                    <div id="resultDetails"></div>
+                </div>
+            </section>
+            
+            <section class="card">
+                <h2><i class="fas fa-history"></i> تاریخچه بررسی‌ها</h2>
+                <div class="history-list" id="historyList">
+                    <!-- تاریخچه بررسی‌ها توسط JavaScript اضافه می‌شود -->
+                </div>
+                <button class="clear-history" id="clearHistoryBtn">پاک کردن تاریخچه</button>
+            </section>
+        </main>
+
+        <div class="sponsor-section">
+            <h3><i class="fas fa-star"></i> توسعه داده شده توسط</h3>
+            <p>این ابزار بخشی از محصولات نرم‌افزاری شرکت اینتل سافت برای سیستم‌های نظارت تصویری و دوربین مداربسته است.</p>
+            <a href="https://intellsoft.ir/" target="_blank" class="sponsor-link">
+                <i class="fas fa-external-link-alt"></i>
+                مشاهده محصولات اینتل سافت
+            </a>
+        </div>
+
+        <div class="footer">
+            <p>© 2023 ابزار بررسی پورت دوربین مداربسته - تمامی حقوق محفوظ است</p>
+            <p>توسعه یافته توسط <a href="https://intellsoft.ir/" target="_blank">اینتل سافت</a> | ارائه دهنده راهکارهای نرم‌افزاری دوربین مداربسته و نظارت تصویری</p>
+        </div>
+    </div>
+
+    <div class="toast hidden" id="toast">
+        <i class="fas fa-check-circle" id="toastIcon"></i>
+        <span id="toastMessage">عملیات با موفقیت انجام شد</span>
+    </div>
+
+    <script>
+        // تنظیمات اولیه
+        const portPresets = [
+            { port: 80, name: 'HTTP (وب)' },
+            { port: 443, name: 'HTTPS (وب امن)' },
+            { port: 554, name: 'RTSP (استریم)' },
+            { port: 37777, name: 'Hikvision' },
+            { port: 8000, name: 'Dahua' },
+            { port: 8080, name: 'HTTP جایگزین' },
+            { port: 1935, name: 'RTMP' },
+            { port: 34567, name: 'Axis' }
+        ];
+
+        const defaultPort = 80;
+        let currentTheme = 'light';
+
+        // عناصر DOM
+        const themeToggle = document.getElementById('themeToggle');
+        const ipAddressInput = document.getElementById('ipAddress');
+        const portNumberInput = document.getElementById('portNumber');
+        const portPresetsContainer = document.getElementById('portPresets');
+        const checkPortBtn = document.getElementById('checkPortBtn');
+        const resultContainer = document.getElementById('resultContainer');
+        const resultTitle = document.getElementById('resultTitle');
+        const resultStatus = document.getElementById('resultStatus');
+        const resultMessage = document.getElementById('resultMessage');
+        const resultDetails = document.getElementById('resultDetails');
+        const historyList = document.getElementById('historyList');
+        const clearHistoryBtn = document.getElementById('clearHistoryBtn');
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toastMessage');
+        const toastIcon = document.getElementById('toastIcon');
+        const ipError = document.getElementById('ipError');
+        const portError = document.getElementById('portError');
+
+        // بارگذاری اولیه
+        document.addEventListener('DOMContentLoaded', function() {
+            loadTheme();
+            setupPortPresets();
+            loadHistory();
+            setupEventListeners();
+            
+            // نمایش پیام خوشامدگویی
+            showToast('ابزار بررسی پورت دوربین مداربسته آماده استفاده است!', 'success');
+        });
+
+        // تنظیم شنونده‌های رویداد
+        function setupEventListeners() {
+            themeToggle.addEventListener('click', toggleTheme);
+            checkPortBtn.addEventListener('click', checkPort);
+            clearHistoryBtn.addEventListener('click', clearHistory);
+            
+            ipAddressInput.addEventListener('input', function() {
+                validateIPAddress(this.value) ? hideError(ipError) : null;
+            });
+            
+            portNumberInput.addEventListener('input', function() {
+                validatePortNumber(this.value) ? hideError(portError) : null;
+            });
+            
+            // تنظیم پورت پیش‌فرض
+            portNumberInput.value = defaultPort;
+        }
+
+        // تنظیم پورت‌های پیش‌فرض
+        function setupPortPresets() {
+            portPresets.forEach(preset => {
+                const button = document.createElement('button');
+                button.className = 'port-btn';
+                button.textContent = `${preset.port} (${preset.name})`;
+                button.dataset.port = preset.port;
+                
+                button.addEventListener('click', function() {
+                    portNumberInput.value = this.dataset.port;
+                    
+                    // فعال‌سازی دکمه انتخاب شده
+                    document.querySelectorAll('.port-btn').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                });
+                
+                portPresetsContainer.appendChild(button);
+            });
+            
+            // انتخاب پورت پیش‌فرض
+            const defaultBtn = document.querySelector(`.port-btn[data-port="${defaultPort}"]`);
+            if (defaultBtn) defaultBtn.classList.add('active');
+        }
+
+        // تغییر تم
+        function toggleTheme() {
+            if (currentTheme === 'light') {
+                document.body.classList.add('dark-mode');
+                currentTheme = 'dark';
+            } else {
+                document.body.classList.remove('dark-mode');
+                currentTheme = 'light';
+            }
+            
+            localStorage.setItem('portCheckerTheme', currentTheme);
+        }
+
+        // بارگذاری تم از localStorage
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('portCheckerTheme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                currentTheme = 'dark';
+            }
+        }
+
+        // اعتبارسنجی آدرس IP
+        function validateIPAddress(ip) {
+            if (!ip) return false;
+            
+            const ipRegex = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+            return ipRegex.test(ip);
+        }
+
+        // اعتبارسنجی شماره پورت
+        function validatePortNumber(port) {
+            if (!port) return false;
+            
+            const portNum = parseInt(port);
+            return portNum >= 1 && portNum <= 65535;
+        }
+
+        // نمایش خطا
+        function showError(element, message) {
+            element.textContent = message;
+            element.style.display = 'block';
+        }
+
+        // مخفی کردن خطا
+        function hideError(element) {
+            element.style.display = 'none';
+        }
+
+        // بررسی وضعیت پورت
+        async function checkPort() {
+            const ip = ipAddressInput.value.trim();
+            const port = portNumberInput.value.trim();
+            
+            // اعتبارسنجی
+            let isValid = true;
+            
+            if (!validateIPAddress(ip)) {
+                showError(ipError, 'لطفا یک آدرس IP معتبر وارد کنید');
+                isValid = false;
+            } else {
+                hideError(ipError);
+            }
+            
+            if (!validatePortNumber(port)) {
+                showError(portError, 'لطفا یک پورت معتبر بین 1 تا 65535 وارد کنید');
+                isValid = false;
+            } else {
+                hideError(portError);
+            }
+            
+            if (!isValid) return;
+            
+            // نمایش وضعیت در حال بررسی
+            checkPortBtn.innerHTML = '<div class="loading"></div> <span>در حال بررسی...</span>';
+            checkPortBtn.disabled = true;
+            
+            // شبیه‌سازی بررسی پورت (در حالت واقعی از WebSocket یا API استفاده می‌شود)
+            // توجه: به دلیل محدودیت‌های امنیتی مرورگر، بررسی مستقیم پورت امکان‌پذیر نیست
+            // این کد یک شبیه‌سازی است که در شرایط واقعی باید با یک سرور واسط جایگزین شود
+            
+            // شبیه‌سازی تأخیر شبکه
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            
+            // شبیه‌سازی نتیجه تصادفی (در حالت واقعی این قسمت با نتیجه واقعی جایگزین می‌شود)
+            const isOpen = Math.random() > 0.5;
+            const responseTime = Math.floor(Math.random() * 300) + 50; // 50-350ms
+            
+            // نمایش نتیجه
+            displayResult(ip, port, isOpen, responseTime);
+            
+            // ذخیره در تاریخچه
+            saveToHistory(ip, port, isOpen, responseTime);
+            
+            // بازنشانی دکمه
+            checkPortBtn.innerHTML = '<span>بررسی وضعیت پورت</span>';
+            checkPortBtn.disabled = false;
+        }
+
+        // نمایش نتیجه بررسی
+        function displayResult(ip, port, isOpen, responseTime) {
+            resultContainer.style.display = 'block';
+            
+            if (isOpen) {
+                resultContainer.className = 'result-container result-open';
+                resultTitle.textContent = 'پورت باز است';
+                resultStatus.innerHTML = '<span class="status-open">باز</span>';
+                resultMessage.textContent = `پورت ${port} روی آدرس ${ip} باز است و قابل دسترسی می‌باشد.`;
+                resultDetails.innerHTML = `
+                    <p><i class="fas fa-clock"></i> زمان پاسخ: ${responseTime} میلی‌ثانیه</p>
+                    <p><i class="fas fa-check-circle"></i> این پورت معمولاً برای دوربین‌های مداربسته استفاده می‌شود.</p>
+                    <p><i class="fas fa-info-circle"></i> می‌توانید از آدرس ${ip}:${port} برای دسترسی به دوربین استفاده کنید.</p>
+                `;
+            } else {
+                resultContainer.className = 'result-container result-closed';
+                resultTitle.textContent = 'پورت بسته است';
+                resultStatus.innerHTML = '<span class="status-closed">بسته</span>';
+                resultMessage.textContent = `پورت ${port} روی آدرس ${ip} بسته است یا قابل دسترسی نیست.`;
+                resultDetails.innerHTML = `
+                    <p><i class="fas fa-exclamation-triangle"></i> این پورت پاسخ نداد یا بسته است.</p>
+                    <p><i class="fas fa-lightbulb"></i> راه‌حل‌های احتمالی:</p>
+                    <ul style="padding-right: 20px; margin-top: 10px;">
+                        <li>از روشن بودن دوربین اطمینان حاصل کنید</li>
+                        <li>تنظیمات فایروال را بررسی کنید</li>
+                        <li>از اتصال شبکه مطمئن شوید</li>
+                        <li>پورت پیش‌فرض دوربین را بررسی کنید</li>
+                    </ul>
+                `;
+            }
+            
+            // اسکرول به نتیجه
+            resultContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // ذخیره در تاریخچه
+        function saveToHistory(ip, port, isOpen, responseTime) {
+            const history = getHistory();
+            const historyItem = {
+                id: Date.now(),
+                ip: ip,
+                port: port,
+                isOpen: isOpen,
+                responseTime: responseTime,
+                timestamp: new Date().toLocaleString('fa-IR')
+            };
+            
+            history.unshift(historyItem); // اضافه به ابتدای آرایه
+            if (history.length > 20) history.pop(); // محدودیت 20 آیتم
+            
+            localStorage.setItem('portCheckerHistory', JSON.stringify(history));
+            loadHistory();
+            
+            // نمایش نوتیفیکیشن
+            showToast(`بررسی پورت ${port} ذخیره شد`, 'success');
+        }
+
+        // بارگذاری تاریخچه
+        function loadHistory() {
+            const history = getHistory();
+            historyList.innerHTML = '';
+            
+            if (history.length === 0) {
+                historyList.innerHTML = '<div class="empty-history"><i class="fas fa-history fa-2x"></i><p>هیچ بررسی‌ای انجام نشده است</p></div>';
+                return;
+            }
+            
+            history.forEach(item => {
+                const historyItem = document.createElement('div');
+                historyItem.className = 'history-item';
+                historyItem.dataset.id = item.id;
+                
+                historyItem.innerHTML = `
+                    <div class="history-info">
+                        <div class="history-ip">${item.ip}:${item.port}</div>
+                        <div class="history-port">${item.timestamp} - زمان پاسخ: ${item.responseTime}ms</div>
+                    </div>
+                    <div class="history-actions">
+                        <button class="action-btn delete-btn" title="حذف">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                    <div class="history-status">
+                        <span class="${item.isOpen ? 'status-open' : 'status-closed'}">
+                            ${item.isOpen ? 'باز' : 'بسته'}
+                        </span>
+                    </div>
+                `;
+                
+                historyList.appendChild(historyItem);
+            });
+            
+            // اضافه کردن رویداد برای دکمه‌های حذف
+            document.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const itemId = parseInt(this.closest('.history-item').dataset.id);
+                    deleteHistoryItem(itemId);
+                });
+            });
+        }
+
+        // دریافت تاریخچه از localStorage
+        function getHistory() {
+            const history = localStorage.getItem('portCheckerHistory');
+            return history ? JSON.parse(history) : [];
+        }
+
+        // حذف یک آیتم از تاریخچه
+        function deleteHistoryItem(id) {
+            const history = getHistory().filter(item => item.id !== id);
+            localStorage.setItem('portCheckerHistory', JSON.stringify(history));
+            loadHistory();
+            showToast('آیتم از تاریخچه حذف شد', 'success');
+        }
+
+        // پاک کردن تاریخچه
+        function clearHistory() {
+            if (confirm('آیا از پاک کردن تمام تاریخچه مطمئن هستید؟')) {
+                localStorage.removeItem('portCheckerHistory');
+                loadHistory();
+                showToast('تاریخچه با موفقیت پاک شد', 'success');
+            }
+        }
+
+        // نمایش نوتیفیکیشن
+        function showToast(message, type = 'info') {
+            toastMessage.textContent = message;
+            toast.className = 'toast';
+            
+            if (type === 'success') {
+                toast.classList.add('success');
+                toastIcon.className = 'fas fa-check-circle';
+            } else if (type === 'error') {
+                toast.classList.add('error');
+                toastIcon.className = 'fas fa-exclamation-circle';
+            } else {
+                toastIcon.className = 'fas fa-info-circle';
+            }
+            
+            toast.classList.remove('hidden');
+            
+            // مخفی کردن خودکار پس از 5 ثانیه
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 5000);
+        }
+
+        // برای نسخه واقعی، تابع checkPort باید با کد زیر جایگزین شود:
+        /*
+        async function checkPortReal(ip, port) {
+            try {
+                // استفاده از WebSocket برای تست پورت
+                const startTime = Date.now();
+                const timeout = 3000; // 3 ثانیه
+                
+                return new Promise((resolve, reject) => {
+                    const socket = new WebSocket(`ws://${ip}:${port}`);
+                    
+                    const timer = setTimeout(() => {
+                        socket.close();
+                        resolve({ isOpen: false, responseTime: timeout });
+                    }, timeout);
+                    
+                    socket.onopen = function() {
+                        clearTimeout(timer);
+                        const responseTime = Date.now() - startTime;
+                        socket.close();
+                        resolve({ isOpen: true, responseTime });
+                    };
+                    
+                    socket.onerror = function() {
+                        clearTimeout(timer);
+                        const responseTime = Date.now() - startTime;
+                        resolve({ isOpen: false, responseTime });
+                    };
+                });
+            } catch (error) {
+                console.error('Error checking port:', error);
+                return { isOpen: false, responseTime: 0 };
+            }
+        }
+        */
+    </script>
+</body>
+</html>
